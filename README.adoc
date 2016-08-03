@@ -1,5 +1,8 @@
 = cedille-arcade
 
+== Projet
+The project is the creation, building and maintening a complete project that ties in Electronic, Software and mecanical aspect. The project is schedule for completion in early september.
+
 == Information
 This repo contains information to create, build and operate our new arcade cabinet.
 **All the necesary information is inside the wiki.**
