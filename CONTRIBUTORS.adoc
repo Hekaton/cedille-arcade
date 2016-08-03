@@ -1,0 +1,6 @@
+= Contributors
+
+== Club CEDILLE:
+* dmitri Kolytchev (fataku)
+* Nicolas Nadeau (gzsierra)
+* Maxime St-Pierre (maximest-pierre)
