@@ -6,3 +6,6 @@ The project is the creation, building and maintening a complete project that tie
 == Information
 This repo contains information to create, build and operate our new arcade cabinet.
 **All the necesary information is inside the wiki.**
+
+== Licence
+This project is dual licence MIT and Creative Commons Attribution 4.0 International CC BY 4.0.
