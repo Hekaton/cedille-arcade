@@ -2,3 +2,4 @@
 
 == Information
 This repo contains information to create, build and operate our new arcade cabinet.
+**All the necesary information is inside the wiki.**
