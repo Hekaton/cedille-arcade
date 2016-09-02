@@ -1,6 +1,8 @@
 = Contributors
 
 == Club CEDILLE:
-* Dmitri Kolytchev (fataku)
 * Nicolas Nadeau (gzsierra)
+
+== Club Conjure:
+* Dmitri Kolytchev (fataku)
 * Maxime St-Pierre (maximest-pierre)
