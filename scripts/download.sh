@@ -1,44 +1,49 @@
 # Script that download every rom in a list automaticaly and class them
 
 # Create the temporary directory
-mkdir temp
-cd temp
+#mkdir temp
+#cd temp
 
+FILESDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+cd ~/RetroPie/roms/
 # Download each console seperatly with bios
 
+echo "looking for ROMlist in $FILESDIR"
+
 # Download GameBoyAdvance
-mkdir GameBoyAdvance
+mkdir -p gba
 cd GameBoyAdvance
-wget -i ../../GameBoyAdvance.txt
-unzip \*.zip
+wget -i $FILESDIR/GameBoyAdvance.txt
+#unzip \*.zip
 cd  ..
 
 # Download NES
-mkdir Nintendo
+mkdir -p nes
 cd Nintendo
-wget -i ../../Nintendo.txt
-unzip \*.zip
+wget -i $FILESDIR/Nintendo.txt
+#unzip \*.zip
 cd ..
 
 # Download N64
-mkdir Nintendo64
+mkdir -p n64
 cd Nintendo64
-wget -i ../../Nintendo64.txt
-unzip \*.zip
+wget -i $FILESDIR/Nintendo64.txt
+#unzip \*.zip
 cd ..
 
 # Download SegaGenesis
-mkdir SegaGenesis
+mkdir -p megadrive
 cd SegaGenesis
-wget -i ../../SegaGenesis.txt
-unzip \*.zip
+wget -i $FILESDIR/SegaGenesis.txt
+#unzip \*.zip
 cd ..
 
 # Download SuperNintendo
-mkdir SuperNintendo
+mkdir -p snes
 cd SuperNintendo
-wget -i ../../SuperNintendo.txt
-unzip \*.zip
+wget -i $FILESDIR/SuperNintendo.txt
+#unzip \*.zip
 cd ..
 
 echo "Gaming Time :D"
