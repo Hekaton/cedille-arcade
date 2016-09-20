@@ -1,7 +1,8 @@
 #include <iostream>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include "ws2812-rpi.h"
+#include <math.h>
+//#include "ws2812-rpi.h"
 
 using namespace std;
 
@@ -14,10 +15,10 @@ bool run = true;
 
 int main(int, char**)
 {
-    NeoPixel *n = new NeoPixel(PIXELS);
+    //NeoPixel *n = new NeoPixel(PIXELS);
 
     Display *d = XOpenDisplay(0);
-    Screen* screen = (Screen *) DefaultScreen(d);
+    Screen* screen = DefaultScreenOfDisplay(d);
 
     unsigned int side = floor(min(screen->height / PIXELS_H, screen->width / PIXELS_W));
     unsigned int square = side * side;
@@ -28,7 +29,9 @@ int main(int, char**)
 
     while(run){
         // get screen pixels
-        XImage *image = XGetImage (d, RootWindow (d, (int) screen), 0, 0, width, height, AllPlanes, XYPixmap);
+        XImage *image = NULL;
+        Window win = RootWindowOfScreen ( screen);
+        image = XGetImage (d, win, 0, 0, width, height, AllPlanes, XYPixmap);
 
         for(int ix = 0; ix < PIXELS_W; ix++){
             for(int iy = 0; iy < PIXELS_H; iy++) {
@@ -37,7 +40,7 @@ int main(int, char**)
                 for(int i = 0; i<square; i++){
                     XColor c;
                     c.pixel = XGetPixel(image, ix * side + (i%side), iy * side + floor(i/side));
-                    XQueryColor (d, DefaultColormap(d, (int) screen), &c);
+                    XQueryColor (d, DefaultColormapOfScreen(screen), &c);
 
                     red += c.red * process;
                     green += c.green * process;
@@ -46,13 +49,13 @@ int main(int, char**)
 
                 // TODO send neopixel matrix data;
                 int pixel = ix*PIXELS_H + iy; // LED matrix coords are {y, x} instead of {x, y}
-                n->setPixelColor(pixel, (char)floor(red), (char)floor(green), (char)floor(blue));
+                //n->setPixelColor(pixel, (char)floor(red), (char)floor(green), (char)floor(blue));
             }
         }
-        n->show();
+        //n->show();
         XFree (image);
     }
 
-    delete n;
+    //delete n;
     return 0;
 }
