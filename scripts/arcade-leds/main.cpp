@@ -2,7 +2,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <math.h>
-//#include "ws2812-rpi.h"
+#include "ws2812-rpi.h"
 
 using namespace std;
 
@@ -13,9 +13,9 @@ static unsigned int MAX_VALUE = 16;
 
 bool run = true;
 
-int main(int, char**)
-{
-    //NeoPixel *n = new NeoPixel(PIXELS);
+int main(int, char**){
+
+    NeoPixel *n = new NeoPixel(PIXELS);
 
     Display *d = XOpenDisplay(0);
     Screen* screen = DefaultScreenOfDisplay(d);
@@ -49,13 +49,14 @@ int main(int, char**)
 
                 // TODO send neopixel matrix data;
                 int pixel = ix*PIXELS_H + iy; // LED matrix coords are {y, x} instead of {x, y}
-                //n->setPixelColor(pixel, (char)floor(red), (char)floor(green), (char)floor(blue));
+                n->setPixelColor(pixel, (char)floor(red), (char)floor(green), (char)floor(blue));
             }
         }
-        //n->show();
+        n->show();
         XFree (image);
     }
 
-    //delete n;
+    delete n;
     return 0;
+
 }
