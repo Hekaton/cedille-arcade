@@ -14,13 +14,12 @@ bool run = true;
 
 int main(int, char**)
 {
-
     NeoPixel *n = new NeoPixel(PIXELS);
 
     Display *d = XOpenDisplay(0);
-    Screen *screen = DefaultScreen(d);
+    Screen* screen = (Screen *) DefaultScreen(d);
 
-    unsigned int side = Math.floor(Math.min(screen->height / PIXELS_H, screen->width / PIXELS_W));
+    unsigned int side = floor(min(screen->height / PIXELS_H, screen->width / PIXELS_W));
     unsigned int square = side * side;
     unsigned int width = side * PIXELS_W;
     unsigned int height = side * PIXELS_H;
@@ -29,19 +28,17 @@ int main(int, char**)
 
     while(run){
         // get screen pixels
-        XImage *image = XGetImage (d, RootWindow (d, screen), 0, 0, width, height, AllPlanes, XYPixmap);
+        XImage *image = XGetImage (d, RootWindow (d, (int) screen), 0, 0, width, height, AllPlanes, XYPixmap);
 
         for(int ix = 0; ix < PIXELS_W; ix++){
             for(int iy = 0; iy < PIXELS_H; iy++) {
 
                 double red, green, blue;
                 for(int i = 0; i<square; i++){
-                    Xcolor c;
-                    c.pixel = XGetPixel(image, ix * side + (i%side), iy * side + Math.floor(i/side));
-                    XQueryColor (d, DefaultColormap(d, screen), &c);
+                    XColor c;
+                    c.pixel = XGetPixel(image, ix * side + (i%side), iy * side + floor(i/side));
+                    XQueryColor (d, DefaultColormap(d, (int) screen), &c);
 
-                    // blend color channels
-                    // also X11 keeps values as 0-65535, dividing by 256 sets it back to 0-255
                     red += c.red * process;
                     green += c.green * process;
                     blue += c.blue * process;
@@ -49,12 +46,11 @@ int main(int, char**)
 
                 // TODO send neopixel matrix data;
                 int pixel = ix*PIXELS_H + iy; // LED matrix coords are {y, x} instead of {x, y}
-                n->setPixelColor(pixel, (char)Math.floor(red), (char)Math.floor(green), (char)Math.floor(blue));
+                n->setPixelColor(pixel, (char)floor(red), (char)floor(green), (char)floor(blue));
             }
         }
         n->show();
         XFree (image);
-        cout << c.red/256 << " " << c.green/256 << " " << c.blue/256 << "\n";
     }
 
     delete n;
