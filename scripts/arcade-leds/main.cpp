@@ -2,7 +2,29 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <math.h>
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <stdint.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <assert.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <math.h>
+#include <time.h>
+
+#include <signal.h>
+#include <getopt.h>
 #include "ws2812-rpi.h"
+#include "ws2812-rpi-defines.h"
+#include <time.h>
 
 using namespace std;
 
@@ -15,48 +37,20 @@ bool run = true;
 
 int main(int, char**){
 
-    NeoPixel *n = new NeoPixel(PIXELS);
+	NeoPixel *n = new NeoPixel(8);
+	n->begin();
+	n->show();
 
-    Display *d = XOpenDisplay(0);
-    Screen* screen = DefaultScreenOfDisplay(d);
+	while(run){
+		//n->clear();
+		for(int i = 0; i<8; i++){
+			n->setPixelColor(i, (char)160, (char)0, (char)0);
+		}
+		n->show();
+	}
 
-    unsigned int side = floor(min(screen->height / PIXELS_H, screen->width / PIXELS_W));
-    unsigned int square = side * side;
-    unsigned int width = side * PIXELS_W;
-    unsigned int height = side * PIXELS_H;
-
-    double process = 1/square/65536*MAX_VALUE;
-
-    while(run){
-        // get screen pixels
-        XImage *image = NULL;
-        Window win = RootWindowOfScreen ( screen);
-        image = XGetImage (d, win, 0, 0, width, height, AllPlanes, XYPixmap);
-
-        for(int ix = 0; ix < PIXELS_W; ix++){
-            for(int iy = 0; iy < PIXELS_H; iy++) {
-
-                double red, green, blue;
-                for(int i = 0; i<square; i++){
-                    XColor c;
-                    c.pixel = XGetPixel(image, ix * side + (i%side), iy * side + floor(i/side));
-                    XQueryColor (d, DefaultColormapOfScreen(screen), &c);
-
-                    red += c.red * process;
-                    green += c.green * process;
-                    blue += c.blue * process;
-                }
-
-                // TODO send neopixel matrix data;
-                int pixel = ix*PIXELS_H + iy; // LED matrix coords are {y, x} instead of {x, y}
-                n->setPixelColor(pixel, (char)floor(red), (char)floor(green), (char)floor(blue));
-            }
-        }
-        n->show();
-        XFree (image);
-    }
-
-    delete n;
-    return 0;
+	delete n;
+	return 0;
 
 }
+
