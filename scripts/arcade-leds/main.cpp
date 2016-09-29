@@ -3,29 +3,6 @@
 #include <X11/Xutil.h>
 #include <math.h>
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <stdint.h>
-#include <dirent.h>
-#include <fcntl.h>
-#include <assert.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-#include <math.h>
-#include <time.h>
-
-#include <signal.h>
-#include <getopt.h>
-#include "ws2812-rpi.h"
-#include "ws2812-rpi-defines.h"
-#include <time.h>
-
 using namespace std;
 
 static unsigned int PIXELS_W = 64;
@@ -35,22 +12,38 @@ static unsigned int MAX_VALUE = 16;
 
 bool run = true;
 
-int main(int, char**){
+int main(int, char**)
+{
+    XColor c;
+	XImage *image;
+	Display *d = XOpenDisplay((char *) NULL);
+	Window root = RootWindow(d, DefaultScreen(d));
 
-	NeoPixel *n = new NeoPixel(8);
-	n->begin();
-	n->show();
+	image = XGetImage (d, RootWindow (d, DefaultScreen (d)), 0, 0, 1, 1, AllPlanes, XYPixmap);
+	//XImage* img = XGetImage (d, root, 0, 0, 1, 1, AllPlanes, ZPixmap);
+	//Screen* screen = DefaultScreenOfDisplay(d);
 
-	while(run){
-		//n->clear();
-		for(int i = 0; i<8; i++){
-			n->setPixelColor(i, (char)160, (char)0, (char)0);
-		}
-		n->show();
-	}
+	int x=0;  // Pixel x 
+	int y=0;  // Pixel y
 
-	delete n;
-	return 0;
+    unsigned int side = floor(min(1080 / PIXELS_H, 1920 / PIXELS_W));
+	unsigned int square = side * side;
+	unsigned int width = side * PIXELS_W;
+	unsigned int height = side * PIXELS_H;
 
+	cout << side << " side for " << PIXELS_W << " pixels" << endl;
+
+	//Window win = RootWindowOfScreen (screen);
+	//image = XGetImage (d, win, 0, 0, width, height, AllPlanes, XYPixmap);
+
+
+
+	//image = XGetImage (d, RootWindow (d, DefaultScreen (d)), x, y, 1, 1, AllPlanes, XYPixmap);
+	//c.pixel = XGetPixel (image, 0, 0);
+	//XFree (image);
+	//XQueryColor (d, DefaultColormap(d, DefaultScreen (d)), &c);
+	//cout << c.red/256 << " " << c.green/256 << " " << c.blue/256 << "\n";
+
+
+    return 0;
 }
-

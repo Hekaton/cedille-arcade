@@ -4,7 +4,7 @@ project(conjure_arcade_leds)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fpermissive")
 
 
-set(SOURCE_FILES main.cpp ws2812-rpi.cpp)
+set(SOURCE_FILES main.cpp)
 add_executable(conjure_arcade_leds ${SOURCE_FILES})
 
 # ---
