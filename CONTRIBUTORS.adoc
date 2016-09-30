@@ -1,8 +1,6 @@
 = Contributors
 
-== Club CEDILLE:
-* Nicolas Nadeau (gzsierra)
-
 == Club Conjure:
 * Dmitri Kolytchev (fataku)
 * Maxime St-Pierre (maximest-pierre)
+* Nicolas Nadeau (gzsierra)
